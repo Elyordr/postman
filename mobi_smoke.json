@@ -1,0 +1,3557 @@
+{
+	"info": {
+		"_postman_id": "38336ad4-43ae-4988-8670-443e1ddd6335",
+		"name": "mobi_smoke",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25390918"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "OTP Request",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var signBytes = CryptoJS.HmacSHA256(pm.request.body.raw, 'sp8ghFtWg8BNGyCpebxbTGPYCgqRKzEc');",
+									"var signHex = CryptoJS.enc.Hex.stringify(signBytes);",
+									"pm.environment.set(\"hash\", signHex);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Message check\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Код подтверждения отправлен\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "DeviceID",
+								"value": "ffffffff-c95a-d390-ffff-ffffef05ac4a",
+								"type": "text"
+							},
+							{
+								"key": "AppVersion",
+								"value": "Android SDK:29(10),v.3.5.5.dbg.3643,samsung,SM-G960F",
+								"type": "text"
+							},
+							{
+								"key": "Request-Hash",
+								"value": "{{hash}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"action\": \"auth\",\n  \"phone\": \"+998888001502\",\n  \"osPlatform\": 0,\n  \"deviceId\": \"ffffffff-c95a-d390-ffff-ffffef05ac4a\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/in",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OTP Type",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var signBytes = CryptoJS.HmacSHA256(pm.request.body.raw, 'sp8ghFtWg8BNGyCpebxbTGPYCgqRKzEc');",
+									"var signHex = CryptoJS.enc.Hex.stringify(signBytes);",
+									"pm.environment.set(\"hash\", signHex);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Message check\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Операция успешно выполнена\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "DeviceId",
+								"value": "ffffffff-c95a-d390-ffff-ffffef05ac4a",
+								"type": "text"
+							},
+							{
+								"key": "AppVersion",
+								"value": "Android SDK:29(10),v.3.5.5.dbg.3643,samsung,SM-G960F",
+								"type": "text"
+							},
+							{
+								"key": "Request-Hash",
+								"value": "{{hash}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"action\": \"auth\",\n  \"deviceId\": \"ffffffff-c95a-d390-ffff-ffffef05ac4a\",\n  \"phone\": \"+998888001502\",\n  \"otp\": \"43599\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/in",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign in",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response.json();",
+									"pm.environment.set(\"auth_token\", resp.payload.authToken);",
+									"",
+									"pm.test(\"Auth_token check\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    let token = jsonData.payload.authToken;",
+									"    pm.expect(token.length).to.above(1)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "DeviceId",
+								"value": "ffffffff-c95a-d390-ffff-ffffef05ac4a",
+								"type": "text"
+							},
+							{
+								"key": "AppVersion",
+								"value": "Android SDK:29(10),v.3.5.5.dbg.3643,samsung,SM-G960F",
+								"type": "text"
+							},
+							{
+								"key": "Request-Hash",
+								"value": "{{hash}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"action\": \"auth\",\n  \"phone\": \"+998888001502\",\n  \"otp\": \"43599\",\n  \"pin\": \"0880\",\n  \"deviceId\": \"ffffffff-c95a-d390-ffff-ffffef05ac4a\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/signin",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// pm.request.headers.add({",
+							"//     DeviceId: \"7bb0e1d79aa3d7b59b099714b8db9d3e\",",
+							"//     AppVersion: \"Android SDK:33(13),v.3.5.5.dbg.3643,Google,Pixel 7 Pro\"",
+							"// })"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Common data",
+			"item": [
+				{
+					"name": "Get Cards Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Cards Quantity check\", function () {",
+									"    var payload = pm.response.json().payload",
+									"    pm.expect(payload.length).to.above(1)",
+									"})",
+									"",
+									"var response = pm.response.json();",
+									"var iterator = response.payload.values();",
+									"",
+									"for (let elements of iterator) {",
+									"    if (elements.cardType != \"bonus\") {",
+									"        if (elements.cardType != \"wallet\") {",
+									"            pm.environment.set(\"cards_id\", elements.id)",
+									"        }",
+									"    }",
+									"    if (elements.cardType == \"humouz\") {",
+									"        pm.environment.set(\"humo_id\", elements.id)",
+									"        pm.environment.set(\"humo_num\", elements.maskedNumber)",
+									"    }",
+									"    if (elements.cardType == \"uzcard\") {",
+									"        pm.environment.set(\"uzcard_id\", elements.id)",
+									"        pm.environment.set(\"uzcard_num\", elements.maskedNumber)",
+									"    }",
+									"    if (elements.cardType == \"wallet\") {",
+									"        pm.environment.set(\"wallet_id\", elements.id)",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/cardsAndAccounts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cardsAndAccounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cards Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"resp = pm.response.json();",
+									"pm.test(\"Message check\", function() {",
+									"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+									"})",
+									"pm.test(\"Cards Amount check\", function() {",
+									"    pm.expect(resp.payload.length).to.above(0)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/cards/status?cardTokens={{cards_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cards",
+								"status"
+							],
+							"query": [
+								{
+									"key": "cardTokens",
+									"value": "{{cards_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cards Balance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response.json();",
+									"pm.test(\"Message check\", function() {",
+									"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+									"})",
+									"",
+									"var response = pm.response.json();",
+									"var iterator = response.payload.values();",
+									"",
+									"pm.test(\"Balance not null check\", function() {",
+									"    for (let elements of iterator) {",
+									"        pm.expect(elements.balance).not.eql(null)",
+									"    }",
+									"})    "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/card/balances?cardTokens={{cards_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"card",
+								"balances"
+							],
+							"query": [
+								{
+									"key": "cardTokens",
+									"value": "{{cards_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Providers",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response.json()",
+									"var auth = pm.environment.get(\"auth_token\")",
+									"",
+									"pm.test(\"Auth check\", function() {",
+									"    pm.expect(resp.payload.authToken).to.eql(auth)",
+									"})",
+									"",
+									"pm.test(\"Verified not null Check\", function() {",
+									"    pm.expect(resp.payload.verified).not.eql(null)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://profile-uz.alif.mobi/api/mobi-profile-uz/v1/profile",
+							"protocol": "https",
+							"host": [
+								"profile-uz",
+								"alif",
+								"mobi"
+							],
+							"path": [
+								"api",
+								"mobi-profile-uz",
+								"v1",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"var auth_token = pm.environment.get(\"auth_token\")",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"DeviceID\",",
+							"    value: \"411319de3396d39bf28842483c91e7ae\"",
+							"})",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"AppVersion\",",
+							"    value: \"Android SDK:29(10),v.3.5.5.dbg.3643,samsung,SM-G960F\"",
+							"})",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"Authorization\",",
+							"    value: auth_token",
+							"})"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Card transfers",
+			"item": [
+				{
+					"name": "W2W Wallet -> Wallet",
+					"item": [
+						{
+							"name": "Number Check",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// var wallet_id = pm.environment.get(\"wallet_id\")",
+											"",
+											"// pm.test(\"Name Check\", function () {",
+											"//     pm.expect(pm.response.json().payload.ownerName).to.eql(\"ELYORXON S.\")",
+											"// })",
+											"// pm.test(\"ID Check\", function () {",
+											"//     var wallet_id_int = parseInt(wallet_id)",
+											"//     pm.expect(pm.response.json().payload.id).to.eql(wallet_id_int)",
+											"//     console.log(wallet_id_int)",
+											"// })"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/v1/t/+998998801502",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1",
+										"t",
+										"+998998801502"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Wallet Balance",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"for (let elements of iterator) {",
+											"    if (elements.cardType == \"wallet\") {",
+											"        pm.environment.set(\"wallet_balance\", elements.balance)",
+											"    }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/cardsAndAccounts",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cardsAndAccounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wallet -> Wallet",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"",
+											"function makeid(length) {",
+											"    var result           = '';",
+											"    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+											"    var charactersLength = characters.length;",
+											"    for ( var i = 0; i < length; i++ ) {",
+											"        result += characters.charAt(Math.floor(Math.random() * charactersLength));",
+											"    }",
+											"    return result;",
+											"}",
+											"pm.environment.set(\"uuid\", makeid(40))"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Message Check\", function () {",
+											"    pm.expect(resp.message).to.be.oneOf([\"Код подтверждения отправлен\", \"Операция успешно выполнена\"])",
+											"})",
+											"",
+											"if(resp.message == \"Операция успешно выполнена\") {",
+											"    pm.environment.set(\"OTP requested?\", \"No\")",
+											"} else{",
+											"    pm.environment.set(\"OTP requested?\", \"Yes\")",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Request-Hash",
+										"value": "{{hash}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sourceAccount\": \"{{wallet_id}}\",\n  \"sourceAccountGate\": \"mobi\",\n  \"destAccount\": \"+998907709880\",\n  \"sourceAccountType\": \"wallet\",\n  \"orderId\": \"{{uuid}}\",\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"currencyCode\": \"uzs\",\n  \"otp\": \"\",\n  \"type\": \"transfer\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/user",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wallet -> Wallet OTP Confirm",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Request-Hash",
+										"value": "{{hash}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sourceAccount\": \"{{wallet_id}}\",\n  \"sourceAccountGate\": \"mobi\",\n  \"destAccount\": \"+998907709880\",\n  \"sourceAccountType\": \"wallet\",\n  \"orderId\": \"{{uuid}}\",\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"currencyCode\": \"uzs\",\n  \"otp\": \"11111\",\n  \"type\": \"transfer\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/user",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "History of Transaction W2W",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var wallet_id = pm.environment.get(\"wallet_id\");",
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Transaction Check\", function () {",
+											"    pm.expect(resp.payload[0].sourceAccount).to.eql(wallet_id)",
+											"}) ",
+											"",
+											"var amount = pm.environment.get(\"Transfer amount_1\")",
+											"pm.test(\"Money Amount Check\", function () {",
+											"    pm.expect(resp.payload[0].amount).to.eql(amount)",
+											"})",
+											"",
+											"pm.test(\"Status check\", function () {",
+											"    const maxNumberOfTries = 3; // your max number of tries",
+											"    const sleepBetweenTries = 1000; // your interval between attempts",
+											"",
+											"    if (!pm.environment.get(\"tries\")) {",
+											"        pm.environment.set(\"tries\", 1);",
+											"    }",
+											"",
+											"    const jsonData = pm.response.json();",
+											"",
+											"    if ((jsonData.payload[0].status !== \"approved\") && (pm.environment.get(\"tries\") < maxNumberOfTries)) {",
+											"        const tries = parseInt(pm.environment.get(\"tries\"), 10);",
+											"        pm.environment.set(\"tries\", tries + 1);",
+											"        setTimeout(function () { }, sleepBetweenTries);",
+											"        postman.setNextRequest(\"History of Transaction W2W\");",
+											"        var numberOfTries = pm.environment.get(\"tries\")",
+											"",
+											"        if (numberOfTries = 3) {",
+											"            pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"        }",
+											"        else {",
+											"            console.log(\"Status not became Approved\")",
+											"        }",
+											"    } else {",
+											"        pm.environment.unset(\"tries\");",
+											"        console.log(\"The status is Approved\")",
+											"        pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"    }",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"limit\": 10,\n  \"transactionType\": \"\",\n  \"operationType\": \"\",\n  \"destAccountType\": \"\",\n  \"accountId\": \"\",\n  \"lastElementDate\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/history",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"history"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wallet Balance Check",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"for (let elements of iterator) {",
+											"    if (elements.cardType == \"wallet\") {",
+											"",
+											"        function parse(str) {",
+											"            return Function(`'use strict'; return (${str})`)()",
+											"        }",
+											"",
+											"        var old_balance = pm.environment.get(\"wallet_balance\");",
+											"        var new_balance = elements.balance",
+											"        var sum = pm.environment.get(\"Transfer amount_2\");",
+											"",
+											"        pm.test(\"Balance Changing Check\", function () {",
+											"            var counting = parse(old_balance - sum)",
+											"            let roundedNumber = Math.round(counting*100)/100",
+											"            pm.expect(parseFloat(new_balance)).to.eql(roundedNumber)",
+											"        })",
+											"            }",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"setTimeout(function(){}, 1500)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/cardsAndAccounts",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cardsAndAccounts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "P2P Humo -> Humo",
+					"item": [
+						{
+							"name": "Get Humo Balance",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();",
+											"pm.test(\"Message check\", function() {",
+											"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"pm.test(\"Balance not null check\", function() {",
+											"    for (let elements of iterator) {",
+											"        pm.expect(elements.balance).not.eql(null)",
+											"    }",
+											"})",
+											"",
+											"pm.environment.set(\"Humo_balance\", resp.payload[0].balance)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/card/balances?cardTokens={{humo_id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"card",
+										"balances"
+									],
+									"query": [
+										{
+											"key": "cardTokens",
+											"value": "{{humo_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Payment Methods",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"var wallet = resp.payload.wallet",
+											"pm.test(\"Cards quantity check\", function() {",
+											"        pm.expect(wallet.length).to.above(1)",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}paymentMethods",
+									"host": [
+										"{{url}}paymentMethods"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Humo -> Humo",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var signBytes = CryptoJS.HmacSHA256(pm.request.body.raw, 'sp8ghFtWg8BNGyCpebxbTGPYCgqRKzEc');",
+											"var signHex = CryptoJS.enc.Hex.stringify(signBytes);",
+											"pm.environment.set(\"hash\", signHex);",
+											"",
+											"function makeid(length) {",
+											"    var result           = '';",
+											"    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+											"    var charactersLength = characters.length;",
+											"    for ( var i = 0; i < length; i++ ) {",
+											"        result += characters.charAt(Math.floor(Math.random() * charactersLength));",
+											"    }",
+											"    return result;",
+											"}",
+											"pm.environment.set(\"uuid\", makeid(40))"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Message Check\", function () {",
+											"    pm.expect(resp.message).to.be.oneOf([\"Код подтверждения отправлен\", \"Операция успешно выполнена\"])",
+											"})",
+											"",
+											"if(resp.message == \"Операция успешно выполнена\") {",
+											"    pm.environment.set(\"OTP requested?\", \"No\")",
+											"} else{",
+											"    pm.environment.set(\"OTP requested?\", \"Yes\")",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Request-Hash",
+										"value": "{{hash}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"9860100124696483\",\n  \"destAccountGate\": \"humouz\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"SAIDMURODXONOV ELYORXON\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{humo_id}}\",\n  \"sourceAccountGate\": \"humouz\",\n  \"sourceAccountType\": \"card\",\n  \"accountFullName\": \"\",\n  \"otp\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/c2c",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"c2c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Humo -> Humo OTP Confirm",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// var resp = pm.response.json()",
+											"// var otp = pm.environment.get(\"OTP requested?\")",
+											"",
+											"",
+											"",
+											"// if(otp == \"No\") {",
+											"//     pm.test(\"No OTP\", function () {",
+											"//         pm.expect(resp.message).to.eql(\"Что-то пошло не так. Попробуйте заново\")",
+											"//     })",
+											"// } if(otp == \"Yes\") {",
+											"//     pm.test(\"Here is OTP\", function () {",
+											"//         pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"//     })",
+											"// }"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Request-Hash",
+										"value": "{{hash}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"9860100124696483\",\n  \"destAccountGate\": \"humouz\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"SAIDMURODXONOV ELYORXON\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{humo_id}}\",\n  \"sourceAccountGate\": \"humouz\",\n  \"sourceAccountType\": \"card\",\n  \"accountFullName\": \"\",\n  \"otp\": \"34815\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/c2c",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"c2c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "History of Transaction H2H",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var humo_id = pm.environment.get(\"humo_id\");",
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Transaction Check\", function () {",
+											"    pm.expect(resp.payload[0].sourceAccount).to.eql(humo_id)",
+											"}) ",
+											"",
+											"var amount = pm.environment.get(\"Transfer amount_1\")",
+											"pm.test(\"Money Amount Check\", function () {",
+											"    pm.expect(resp.payload[0].amount).to.eql(amount)",
+											"})",
+											"",
+											"pm.test(\"Status check\", function () {",
+											"    const maxNumberOfTries = 3; // your max number of tries",
+											"    const sleepBetweenTries = 1000; // your interval between attempts",
+											"",
+											"    if (!pm.environment.get(\"tries\")) {",
+											"        pm.environment.set(\"tries\", 1);",
+											"    }",
+											"",
+											"    const jsonData = pm.response.json();",
+											"",
+											"    if ((jsonData.payload[0].status !== \"approved\") && (pm.environment.get(\"tries\") < maxNumberOfTries)) {",
+											"        const tries = parseInt(pm.environment.get(\"tries\"), 10);",
+											"        pm.environment.set(\"tries\", tries + 1);",
+											"        setTimeout(function () { }, sleepBetweenTries);",
+											"        postman.setNextRequest(\"History of Transaction H2H\");",
+											"        var numberOfTries = pm.environment.get(\"tries\")",
+											"",
+											"        if (numberOfTries = 3) {",
+											"            pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"        }",
+											"        else {",
+											"            console.log(\"Status not became Approved\")",
+											"        }",
+											"    } else {",
+											"        pm.environment.unset(\"tries\");",
+											"        console.log(\"The status is Approved\")",
+											"        pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"    }",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"limit\": 10,\n  \"transactionType\": \"\",\n  \"operationType\": \"\",\n  \"destAccountType\": \"\",\n  \"accountId\": \"\",\n  \"lastElementDate\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/history",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"history"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Humo Balance Check",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();",
+											"pm.test(\"Message check\", function() {",
+											"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"pm.test(\"Balance not null check\", function() {",
+											"    for (let elements of iterator) {",
+											"        pm.expect(elements.balance).not.eql(null)",
+											"    }",
+											"})",
+											"",
+											"function parse(str) {",
+											"  return Function(`'use strict'; return (${str})`)()",
+											"}",
+											"",
+											"var old_balance = pm.environment.get(\"Humo_balance\");",
+											"var new_balance = resp.payload[0].balance",
+											"var sum = pm.environment.get(\"Transfer amount_2\");",
+											"var commission = pm.environment.get(\"Transfer commission\")",
+											"",
+											"pm.test(\"Balance Changing Check\", function () {",
+											"    var counting = parse(old_balance - sum - (sum * commission))",
+											"    let roundedNumber = Math.round(counting*100)/100",
+											"    pm.expect(new_balance).to.eql(roundedNumber.toString())",
+											"})",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"setTimeout(function(){}, 1500)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/card/balances?cardTokens={{humo_id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"card",
+										"balances"
+									],
+									"query": [
+										{
+											"key": "cardTokens",
+											"value": "{{humo_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "C2C Humo -> Uzcard",
+					"item": [
+						{
+							"name": "Get Humo Balance",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();",
+											"pm.test(\"Message check\", function() {",
+											"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"pm.test(\"Balance not null check\", function() {",
+											"    for (let elements of iterator) {",
+											"        pm.expect(elements.balance).not.eql(null)",
+											"    }",
+											"})",
+											"",
+											"pm.environment.set(\"Humo_balance\", resp.payload[0].balance)",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/card/balances?cardTokens={{humo_id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"card",
+										"balances"
+									],
+									"query": [
+										{
+											"key": "cardTokens",
+											"value": "{{humo_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Humo -> Uzcard",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function makeid(length) {",
+											"    var result           = '';",
+											"    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+											"    var charactersLength = characters.length;",
+											"    for ( var i = 0; i < length; i++ ) {",
+											"        result += characters.charAt(Math.floor(Math.random() * charactersLength));",
+											"    }",
+											"    return result;",
+											"}",
+											"pm.environment.set(\"uuid\", makeid(40))"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Message Check\", function () {",
+											"    pm.expect(resp.message).to.be.oneOf([\"Код подтверждения отправлен\", \"Операция успешно выполнена\"])",
+											"})",
+											"",
+											"if(resp.message == \"Операция успешно выполнена\") {",
+											"    pm.environment.set(\"OTP requested?\", \"No\")",
+											"} else{",
+											"    pm.environment.set(\"OTP requested?\", \"Yes\")",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"6262720040646617\",\n  \"destAccountGate\": \"uzcard\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"ELYORXON SAIDMURODXONOV\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{humo_id}}\",\n  \"sourceAccountGate\": \"humouz\",\n  \"sourceAccountType\": \"card\",\n  \"accountFullName\": \"\",\n  \"otp\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/c2c",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"c2c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Humo -> Uzcard OTP Confirm",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// var resp = pm.response.json()",
+											"// var otp = pm.environment.get(\"OTP requested?\")",
+											"",
+											"",
+											"",
+											"// if(otp == \"No\") {",
+											"//     pm.test(\"No OTP\", function () {",
+											"//         pm.expect(resp.message).to.eql(\"Что-то пошло не так. Попробуйте заново\")",
+											"//     })",
+											"// } if(otp == \"Yes\") {",
+											"//     pm.test(\"Here is OTP\", function () {",
+											"//         pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"//     })",
+											"// }"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"6262720040646617\",\n  \"destAccountGate\": \"uzcard\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"ELYORXON SAIDMURODXONOV\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{humo_id}}\",\n  \"sourceAccountGate\": \"humouz\",\n  \"sourceAccountType\": \"card\",\n  \"accountFullName\": \"\",\n  \"otp\": \"94527\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/c2c",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"c2c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "History of Transaction H2U",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var humo_id = pm.environment.get(\"humo_id\");",
+											"var resp = pm.response.json()",
+											"",
+											"// pm.test(\"Transaction Check\", function () {",
+											"//     pm.expect(resp.payload[1].sourceAccount).to.eql(humo_id)",
+											"// }) ",
+											"",
+											"var amount = pm.environment.get(\"Transfer amount_1\")",
+											"pm.test(\"Money Amount Check\", function () {",
+											"    pm.expect(resp.payload[0].amount).to.eql(amount)",
+											"})",
+											"",
+											"",
+											"pm.test(\"Transaction Check\", function () {",
+											"    pm.expect(resp.payload[1].sourceAccount || resp.payload[0].sourceAccount).to.eql(humo_id)",
+											"});",
+											"",
+											"pm.test(\"Status check\", function () {",
+											"    const maxNumberOfTries = 3; // your max number of tries",
+											"    const sleepBetweenTries = 1000; // your interval between attempts",
+											"",
+											"    if (!pm.environment.get(\"tries\")) {",
+											"        pm.environment.set(\"tries\", 1);",
+											"    }",
+											"",
+											"    const jsonData = pm.response.json();",
+											"",
+											"    if ((jsonData.payload[0].status !== \"approved\") && (pm.environment.get(\"tries\") < maxNumberOfTries)) {",
+											"        const tries = parseInt(pm.environment.get(\"tries\"), 10);",
+											"        pm.environment.set(\"tries\", tries + 1);",
+											"        setTimeout(function () { }, sleepBetweenTries);",
+											"        postman.setNextRequest(\"History of Transaction H2U\");",
+											"        var numberOfTries = pm.environment.get(\"tries\")",
+											"",
+											"        if (numberOfTries = 3) {",
+											"            pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"        }",
+											"        else {",
+											"            console.log(\"Status not became Approved\")",
+											"        }",
+											"    } else {",
+											"        pm.environment.unset(\"tries\");",
+											"        console.log(\"The status is Approved\")",
+											"        pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"    }",
+											"})",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"limit\": 10,\n  \"transactionType\": \"\",\n  \"operationType\": \"\",\n  \"destAccountType\": \"\",\n  \"accountId\": \"\",\n  \"lastElementDate\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/history",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"history"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Humo Balance Check",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();",
+											"pm.test(\"Message check\", function() {",
+											"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"pm.test(\"Balance not null check\", function() {",
+											"    for (let elements of iterator) {",
+											"        pm.expect(elements.balance).not.eql(null)",
+											"    }",
+											"})",
+											"",
+											"function parse(str) {",
+											"  return Function(`'use strict'; return (${str})`)()",
+											"}",
+											"",
+											"var old_balance = pm.environment.get(\"Humo_balance\");",
+											"var new_balance = resp.payload[0].balance",
+											"var sum = pm.environment.get(\"Transfer amount_2\");",
+											"var commission = pm.environment.get(\"Transfer commission\")",
+											"",
+											"pm.test(\"Balance Changing Check\", function () {",
+											"    var counting = parse(old_balance - sum - (sum * commission))",
+											"    let roundedNumber = Math.round(counting*100)/100",
+											"    pm.expect(new_balance).to.eql(roundedNumber.toString())",
+											"})",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"setTimeout(function(){}, 1500)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/card/balances?cardTokens={{humo_id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"card",
+										"balances"
+									],
+									"query": [
+										{
+											"key": "cardTokens",
+											"value": "{{humo_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "C2C Uzcard -> Humo",
+					"item": [
+						{
+							"name": "Get Uzcard Balance",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();",
+											"pm.test(\"Message check\", function() {",
+											"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"pm.test(\"Balance not null check\", function() {",
+											"    for (let elements of iterator) {",
+											"        pm.expect(elements.balance).not.eql(null)",
+											"    }",
+											"})",
+											"",
+											"pm.environment.set(\"Uzcard_balance\", resp.payload[0].balance)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/card/balances?cardTokens={{uzcard_id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"card",
+										"balances"
+									],
+									"query": [
+										{
+											"key": "cardTokens",
+											"value": "{{uzcard_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Uzcard -> Humo",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function makeid(length) {",
+											"    var result           = '';",
+											"    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+											"    var charactersLength = characters.length;",
+											"    for ( var i = 0; i < length; i++ ) {",
+											"        result += characters.charAt(Math.floor(Math.random() * charactersLength));",
+											"    }",
+											"    return result;",
+											"}",
+											"pm.environment.set(\"uuid\", makeid(40))"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Message Check\", function () {",
+											"    pm.expect(resp.message).to.be.oneOf([\"Код подтверждения отправлен\", \"Операция успешно выполнена\"])",
+											"})",
+											"",
+											"if(resp.message == \"Операция успешно выполнена\") {",
+											"    pm.environment.set(\"OTP requested?\", \"No\")",
+											"} else{",
+											"    pm.environment.set(\"OTP requested?\", \"Yes\")",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"9860200101725881\",\n  \"destAccountGate\": \"humouz\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"SAIDMURODXONOV ELYORXON\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{uzcard_id}}\",\n  \"sourceAccountGate\": \"uzcard\",\n  \"sourceAccountType\": \"card\",\n  \"accountFullName\": \"\",\n  \"otp\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/c2c",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"c2c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Uzcard -> Humo OTP Confirm",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// var resp = pm.response.json()",
+											"// var otp = pm.environment.get(\"OTP requested?\")",
+											"",
+											"",
+											"",
+											"// if(otp == \"No\") {",
+											"//     pm.test(\"No OTP\", function () {",
+											"//         pm.expect(resp.message).to.eql(\"Что-то пошло не так. Попробуйте заново\")",
+											"//     })",
+											"// } if(otp == \"Yes\") {",
+											"//     pm.test(\"Here is OTP\", function () {",
+											"//         pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"//     })",
+											"// }"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"9860200101725881\",\n  \"destAccountGate\": \"humouz\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"SAIDMURODXONOV ELYORXON\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{uzcard_id}}\",\n  \"sourceAccountGate\": \"uzcard\",\n  \"sourceAccountType\": \"card\",\n  \"accountFullName\": \"\",\n  \"otp\": \"46095\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/c2c",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"c2c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "History of Transaction U2H",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var uzcard_id = pm.environment.get(\"uzcard_id\");",
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Transaction Check\", function () {",
+											"    pm.expect(resp.payload[1].sourceAccount || resp.payload[0].sourceAccount).to.eql(uzcard_id)",
+											"});",
+											"",
+											"var amount = pm.environment.get(\"Transfer amount_1\")",
+											"pm.test(\"Money Amount Check\", function () {",
+											"    pm.expect(resp.payload[0].amount == amount || resp.payload[1].amount == amount).to.be.true",
+											"})",
+											"",
+											"pm.test(\"Status check\", function () {",
+											"    const maxNumberOfTries = 3; // your max number of tries",
+											"    const sleepBetweenTries = 1000; // your interval between attempts",
+											"",
+											"    if (!pm.environment.get(\"tries\")) {",
+											"        pm.environment.set(\"tries\", 1);",
+											"    }",
+											"",
+											"    const jsonData = pm.response.json();",
+											"",
+											"    if ((jsonData.payload[0].status !== \"approved\") && (pm.environment.get(\"tries\") < maxNumberOfTries)) {",
+											"        const tries = parseInt(pm.environment.get(\"tries\"), 10);",
+											"        pm.environment.set(\"tries\", tries + 1);",
+											"        setTimeout(function () { }, sleepBetweenTries);",
+											"        postman.setNextRequest(\"History of Transaction U2H\");",
+											"        var numberOfTries = pm.environment.get(\"tries\")",
+											"",
+											"        if (numberOfTries = 3) {",
+											"            pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"        }",
+											"        else {",
+											"            console.log(\"Status not became Approved\")",
+											"        }",
+											"    } else {",
+											"        pm.environment.unset(\"tries\");",
+											"        console.log(\"The status is Approved\")",
+											"        pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"    }",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"limit\": 10,\n  \"transactionType\": \"\",\n  \"operationType\": \"\",\n  \"destAccountType\": \"\",\n  \"accountId\": \"\",\n  \"lastElementDate\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/history",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"history"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Uzcard Balance Check",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();",
+											"pm.test(\"Message check\", function() {",
+											"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"pm.test(\"Balance not null check\", function() {",
+											"    for (let elements of iterator) {",
+											"        pm.expect(elements.balance).not.eql(null)",
+											"    }",
+											"})",
+											"",
+											"function parse(str) {",
+											"  return Function(`'use strict'; return (${str})`)()",
+											"}",
+											"",
+											"var old_balance = pm.environment.get(\"Uzcard_balance\");",
+											"var new_balance = resp.payload[0].balance",
+											"var sum = pm.environment.get(\"Transfer amount_2\");",
+											"var commission = pm.environment.get(\"Transfer commission\")",
+											"",
+											"pm.test(\"Balance Changing Check\", function () {",
+											"    var counting = parse(old_balance - sum - (sum * commission))",
+											"    let roundedNumber = Math.round(counting*100)/100",
+											"    pm.expect(new_balance).to.eql(roundedNumber.toString())",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"setTimeout(function(){}, 2500)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/card/balances?cardTokens={{uzcard_id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"card",
+										"balances"
+									],
+									"query": [
+										{
+											"key": "cardTokens",
+											"value": "{{uzcard_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "C2C Uzcard -> Uzcard",
+					"item": [
+						{
+							"name": "Get Uzcard Balance",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();",
+											"pm.test(\"Message check\", function() {",
+											"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"pm.test(\"Balance not null check\", function() {",
+											"    for (let elements of iterator) {",
+											"        pm.expect(elements.balance).not.eql(null)",
+											"    }",
+											"})",
+											"",
+											"pm.environment.set(\"Uzcard_balance\", resp.payload[0].balance)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/card/balances?cardTokens={{uzcard_id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"card",
+										"balances"
+									],
+									"query": [
+										{
+											"key": "cardTokens",
+											"value": "{{uzcard_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Uzcard -> Uzcard",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function makeid(length) {",
+											"    var result           = '';",
+											"    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+											"    var charactersLength = characters.length;",
+											"    for ( var i = 0; i < length; i++ ) {",
+											"        result += characters.charAt(Math.floor(Math.random() * charactersLength));",
+											"    }",
+											"    return result;",
+											"}",
+											"pm.environment.set(\"uuid\", makeid(40))"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Message Check\", function () {",
+											"    pm.expect(resp.message).to.be.oneOf([\"Код подтверждения отправлен\", \"Операция успешно выполнена\"])",
+											"})",
+											"",
+											"if(resp.message == \"Операция успешно выполнена\") {",
+											"    pm.environment.set(\"OTP requested?\", \"No\")",
+											"} else{",
+											"    pm.environment.set(\"OTP requested?\", \"Yes\")",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"8600332944465396\",\n  \"destAccountGate\": \"uzcard\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"ODINAKHON ADKHAMOVA\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{uzcard_id}}\",\n  \"sourceAccountGate\": \"uzcard\",\n  \"sourceAccountType\": \"card\",\n  \"accountFullName\": \"\",\n  \"otp\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/c2c",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"c2c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Uzcard -> Uzcard OTP Confirm",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// var resp = pm.response.json()",
+											"// var otp = pm.environment.get(\"OTP requested?\")",
+											"",
+											"",
+											"",
+											"// if(otp == \"No\") {",
+											"//     pm.test(\"No OTP\", function () {",
+											"//         pm.expect(resp.message).to.eql(\"Что-то пошло не так. Попробуйте заново\")",
+											"//     })",
+											"// } if(otp == \"Yes\") {",
+											"//     pm.test(\"Here is OTP\", function () {",
+											"//         pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"//     })",
+											"// }"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"8600332944465396\",\n  \"destAccountGate\": \"uzcard\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"ODINAKHON ADKHAMOVA\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{uzcard_id}}\",\n  \"sourceAccountGate\": \"uzcard\",\n  \"sourceAccountType\": \"card\",\n  \"accountFullName\": \"\",\n  \"otp\": \"11111\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/c2c",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"c2c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "History of Transaction U2U",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var uz_id = pm.environment.get(\"uzcard_id\");",
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Transaction Check\", function () {",
+											"    pm.expect(resp.payload[1].sourceAccount || resp.payload[0].sourceAccount).to.eql(uz_id)",
+											"});",
+											"",
+											"var amount = pm.environment.get(\"Transfer amount_1\")",
+											"pm.test(\"Money Amount Check\", function () {",
+											"    pm.expect(resp.payload[0].amount == amount || resp.payload[1].amount == amount).to.be.true",
+											"})",
+											"",
+											"",
+											"",
+											"pm.test(\"Status check\", function () {",
+											"    const maxNumberOfTries = 3; // your max number of tries",
+											"    const sleepBetweenTries = 1000; // your interval between attempts",
+											"",
+											"    if (!pm.environment.get(\"tries\")) {",
+											"        pm.environment.set(\"tries\", 1);",
+											"    }",
+											"",
+											"    const jsonData = pm.response.json();",
+											"",
+											"    if ((jsonData.payload[0].status !== \"approved\") && (pm.environment.get(\"tries\") < maxNumberOfTries)) {",
+											"        const tries = parseInt(pm.environment.get(\"tries\"), 10);",
+											"        pm.environment.set(\"tries\", tries + 1);",
+											"        setTimeout(function () { }, sleepBetweenTries);",
+											"        postman.setNextRequest(\"History of Transaction U2U\");",
+											"        var numberOfTries = pm.environment.get(\"tries\")",
+											"",
+											"        if (numberOfTries = 3) {",
+											"            pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"        }",
+											"        else {",
+											"            console.log(\"Status not became Approved\")",
+											"        }",
+											"    } else {",
+											"        pm.environment.unset(\"tries\");",
+											"        console.log(\"The status is Approved\")",
+											"        pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"    }",
+											"})",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"limit\": 10,\n  \"transactionType\": \"\",\n  \"operationType\": \"\",\n  \"destAccountType\": \"\",\n  \"accountId\": \"\",\n  \"lastElementDate\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/history",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"history"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Uzcard Balance Check",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();",
+											"pm.test(\"Message check\", function() {",
+											"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"pm.test(\"Balance not null check\", function() {",
+											"    for (let elements of iterator) {",
+											"        pm.expect(elements.balance).not.eql(null)",
+											"    }",
+											"})",
+											"",
+											"function parse(str) {",
+											"  return Function(`'use strict'; return (${str})`)()",
+											"}",
+											"",
+											"var old_balance = pm.environment.get(\"Uzcard_balance\");",
+											"var new_balance = resp.payload[0].balance",
+											"var sum = pm.environment.get(\"Transfer amount_2\");",
+											"var commission = pm.environment.get(\"Transfer commission\")",
+											"",
+											"pm.test(\"Balance Changing Check\", function () {",
+											"    var counting = parse(old_balance - sum - (sum * commission))",
+											"    let roundedNumber = Math.round(counting*100)/100",
+											"    pm.expect(new_balance).to.eql(roundedNumber.toString())",
+											"})",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"setTimeout(function(){}, 1500)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/card/balances?cardTokens={{uzcard_id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"card",
+										"balances"
+									],
+									"query": [
+										{
+											"key": "cardTokens",
+											"value": "{{uzcard_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "W2C Wallet -> Humo",
+					"item": [
+						{
+							"name": "Get Wallet Balance",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"for (let elements of iterator) {",
+											"    if (elements.cardType == \"wallet\") {",
+											"        pm.environment.set(\"wallet_balance\", elements.balance)",
+											"    }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/cardsAndAccounts",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cardsAndAccounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wallet -> Humo",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"",
+											"function makeid(length) {",
+											"    var result           = '';",
+											"    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+											"    var charactersLength = characters.length;",
+											"    for ( var i = 0; i < length; i++ ) {",
+											"        result += characters.charAt(Math.floor(Math.random() * charactersLength));",
+											"    }",
+											"    return result;",
+											"}",
+											"pm.environment.set(\"uuid\", makeid(40))"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Message Check\", function () {",
+											"    pm.expect(resp.message).to.be.oneOf([\"Код подтверждения отправлен\", \"Операция успешно выполнена\"])",
+											"})",
+											"",
+											"if(resp.message == \"Операция успешно выполнена\") {",
+											"    pm.environment.set(\"OTP requested?\", \"No\")",
+											"} else{",
+											"    pm.environment.set(\"OTP requested?\", \"Yes\")",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Request-Hash",
+										"value": "{{hash}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"8600312960737365\",\n  \"destAccountGate\": \"uzcard\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"SAIDMURODXONOV ELYORXON\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{wallet_id}}\",\n  \"sourceAccountGate\": \"mobi\",\n  \"sourceAccountType\": \"wallet\",\n  \"accountFullName\": \"\",\n  \"otp\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/from/wallet",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"from",
+										"wallet"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wallet -> Humo OTP Confirm",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Request-Hash",
+										"value": "{{hash}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"8600312960737365\",\n  \"destAccountGate\": \"uzcard\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"SAIDMURODXONOV ELYORXON\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{wallet_id}}\",\n  \"sourceAccountGate\": \"mobi\",\n  \"sourceAccountType\": \"wallet\",\n  \"accountFullName\": \"\",\n  \"otp\": \"24621\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/from/wallet",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"from",
+										"wallet"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "History of Transaction W2H",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var wallet_id = pm.environment.get(\"wallet_id\");",
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Transaction Check\", function () {",
+											"    pm.expect(resp.payload[1].sourceAccount || resp.payload[0].sourceAccount).to.eql(wallet_id)",
+											"}) ",
+											"",
+											"var amount = pm.environment.get(\"Transfer amount_1\")",
+											"pm.test(\"Money Amount Check\", function () {",
+											"    pm.expect(resp.payload[0].amount == amount || resp.payload[1].amount == amount).to.be.true",
+											"})",
+											"",
+											"pm.test(\"Status check\", function () {",
+											"    const maxNumberOfTries = 3; // your max number of tries",
+											"    const sleepBetweenTries = 1000; // your interval between attempts",
+											"",
+											"    if (!pm.environment.get(\"tries\")) {",
+											"        pm.environment.set(\"tries\", 1);",
+											"    }",
+											"",
+											"    const jsonData = pm.response.json();",
+											"",
+											"    if ((jsonData.payload[0].status !== \"approved\") && (pm.environment.get(\"tries\") < maxNumberOfTries)) {",
+											"        const tries = parseInt(pm.environment.get(\"tries\"), 10);",
+											"        pm.environment.set(\"tries\", tries + 1);",
+											"        setTimeout(function () { }, sleepBetweenTries);",
+											"        postman.setNextRequest(\"History of Transaction W2H\");",
+											"        var numberOfTries = pm.environment.get(\"tries\")",
+											"",
+											"        if (numberOfTries = 3) {",
+											"            pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"        }",
+											"        else {",
+											"            console.log(\"Status not became Approved\")",
+											"        }",
+											"    } else {",
+											"        pm.environment.unset(\"tries\");",
+											"        console.log(\"The status is Approved\")",
+											"        pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"    }",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"limit\": 10,\n  \"transactionType\": \"\",\n  \"operationType\": \"\",\n  \"destAccountType\": \"\",\n  \"accountId\": \"\",\n  \"lastElementDate\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/history",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"history"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Wallet Balance Check",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"for (let elements of iterator) {",
+											"    if (elements.cardType == \"wallet\") {",
+											"",
+											"        function parse(str) {",
+											"            return Function(`'use strict'; return (${str})`)()",
+											"        }",
+											"",
+											"        var old_balance = pm.environment.get(\"wallet_balance\");",
+											"        var new_balance = elements.balance",
+											"        var sum = pm.environment.get(\"Transfer amount_2\");",
+											"        var commission = pm.environment.get(\"Transfer commission\")",
+											"",
+											"        pm.test(\"Balance Changing Check\", function () {",
+											"            var counting = parse(old_balance - sum - (sum * commission))",
+											"            let roundedNumber = Math.round(counting*100)/100",
+											"            pm.expect(parseFloat(new_balance)).to.eql(roundedNumber)",
+											"        })",
+											"            }",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"setTimeout(function(){}, 1500)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/cardsAndAccounts",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cardsAndAccounts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "C2W Humo -> Wallet",
+					"item": [
+						{
+							"name": "Get Humo Balance",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();",
+											"pm.test(\"Message check\", function() {",
+											"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"pm.test(\"Balance not null check\", function() {",
+											"    for (let elements of iterator) {",
+											"        pm.expect(elements.balance).not.eql(null)",
+											"    }",
+											"})",
+											"",
+											"pm.environment.set(\"Humo_balance\", resp.payload[0].balance)",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/card/balances?cardTokens={{humo_id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"card",
+										"balances"
+									],
+									"query": [
+										{
+											"key": "cardTokens",
+											"value": "{{humo_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Humo -> Wallet",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function makeid(length) {",
+											"    var result           = '';",
+											"    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+											"    var charactersLength = characters.length;",
+											"    for ( var i = 0; i < length; i++ ) {",
+											"        result += characters.charAt(Math.floor(Math.random() * charactersLength));",
+											"    }",
+											"    return result;",
+											"}",
+											"pm.environment.set(\"uuid\", makeid(40))",
+											"",
+											"var uuid_1 = pm.environment.get(\"uuid\")",
+											"",
+											"",
+											"let body = JSON.parse(pm.request.body);",
+											"body.orderId = uuid_1;",
+											"pm.request.body = JSON.stringify(body);",
+											"",
+											"let bd = pm.request.body.toString();",
+											"",
+											"",
+											"",
+											"var signBytes = CryptoJS.HmacSHA256(bd, 'sp8ghFtWg8BNGyCpebxbTGPYCgqRKzEc');",
+											"pm.environment.set(\"hash\", signBytes.toString());",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Message Check\", function () {",
+											"    pm.expect(resp.message).to.be.oneOf([\"Код подтверждения отправлен\", \"Операция успешно выполнена\"])",
+											"})",
+											"",
+											"if(resp.message == \"Операция успешно выполнена\") {",
+											"    pm.environment.set(\"OTP requested?\", \"No\")",
+											"} else{",
+											"    pm.environment.set(\"OTP requested?\", \"Yes\")",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Request-Hash",
+										"value": "{{hash}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"sourceAccount\": \"a4a4a43f1fbbffd7e85482f87b3151bcd59ca727173ab27b3617d731\",\n    \"sourceAccountGate\": \"humouz1\",\n    \"destAccount\": \"+998998801502\",\n    \"sourceAccountType\": \"card\",\n    \"orderId\": \"{{uuid}}\",\n    \"amount\": 50000,\n    \"destAccountGate\": \"mobi\",\n    \"destAccountType\": \"wallet\",\n    \"comment\": \"\",\n    \"currencyCode\": \"uzs\",\n    \"otp\": \"\",\n    \"type\": \"topup\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1/topup",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1",
+										"topup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Humo -> Wallet OTP Confirm",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// var resp = pm.response.json()",
+											"// var otp = pm.environment.get(\"OTP requested?\")",
+											"",
+											"",
+											"",
+											"// if(otp == \"No\") {",
+											"//     pm.test(\"No OTP\", function () {",
+											"//         pm.expect(resp.message).to.eql(\"Что-то пошло не так. Попробуйте заново\")",
+											"//     })",
+											"// } if(otp == \"Yes\") {",
+											"//     pm.test(\"Here is OTP\", function () {",
+											"//         pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"//     })",
+											"// }"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sourceAccount\": \"{{humo_id}}\",\n  \"sourceAccountGate\": \"humouz\",\n  \"destAccount\": \"+998998801502\",\n  \"sourceAccountType\": \"card\",\n  \"orderId\": \"{{uuid}}\",\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"currencyCode\": \"uzs\",\n  \"otp\": \"11111\",\n  \"type\": \"topup\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/transfer/c2c",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"transfer",
+										"c2c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "History of Transaction H2W",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var humo_id = pm.environment.get(\"humo_id\");",
+											"var resp = pm.response.json()",
+											"",
+											"pm.test(\"Transaction Check\", function () {",
+											"    pm.expect(resp.payload[0].sourceAccount).to.eql(humo_id)",
+											"}) ",
+											"",
+											"var amount = pm.environment.get(\"Transfer amount_1\")",
+											"pm.test(\"Money Amount Check\", function () {",
+											"    pm.expect(resp.payload[0].amount).to.eql(amount)",
+											"})",
+											"",
+											"pm.test(\"Status check\", function () {",
+											"    const maxNumberOfTries = 3; // your max number of tries",
+											"    const sleepBetweenTries = 1000; // your interval between attempts",
+											"",
+											"    if (!pm.environment.get(\"tries\")) {",
+											"        pm.environment.set(\"tries\", 1);",
+											"    }",
+											"",
+											"    const jsonData = pm.response.json();",
+											"",
+											"    if ((jsonData.payload[0].status !== \"approved\") && (pm.environment.get(\"tries\") < maxNumberOfTries)) {",
+											"        const tries = parseInt(pm.environment.get(\"tries\"), 10);",
+											"        pm.environment.set(\"tries\", tries + 1);",
+											"        setTimeout(function () { }, sleepBetweenTries);",
+											"        postman.setNextRequest(\"History of Transaction H2W\");",
+											"        var numberOfTries = pm.environment.get(\"tries\")",
+											"",
+											"        if (numberOfTries = 3) {",
+											"            pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"        }",
+											"        else {",
+											"            console.log(\"Status not became Approved\")",
+											"        }",
+											"    } else {",
+											"        pm.environment.unset(\"tries\");",
+											"        console.log(\"The status is Approved\")",
+											"        pm.expect(jsonData.payload[0].status).to.eql(\"approved\")",
+											"    }",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"limit\": 10,\n  \"transactionType\": \"\",\n  \"operationType\": \"\",\n  \"destAccountType\": \"\",\n  \"accountId\": \"\",\n  \"lastElementDate\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url2}}/v1.1/history",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"v1.1",
+										"history"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Humo Balance Check",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();",
+											"pm.test(\"Message check\", function() {",
+											"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"})",
+											"",
+											"var response = pm.response.json();",
+											"var iterator = response.payload.values();",
+											"",
+											"pm.test(\"Balance not null check\", function() {",
+											"    for (let elements of iterator) {",
+											"        pm.expect(elements.balance).not.eql(null)",
+											"    }",
+											"})",
+											"",
+											"function parse(str) {",
+											"  return Function(`'use strict'; return (${str})`)()",
+											"}",
+											"",
+											"var old_balance = pm.environment.get(\"Humo_balance\");",
+											"var new_balance = resp.payload[0].balance",
+											"var sum = pm.environment.get(\"Transfer amount_2\");",
+											"var commission = pm.environment.get(\"Transfer commission\")",
+											"",
+											"pm.test(\"Balance Changing Check\", function () {",
+											"    var counting = parse(old_balance - sum)",
+											"    let roundedNumber = Math.round(counting*100)/100",
+											"    pm.expect(new_balance).to.eql(roundedNumber.toString())",
+											"})",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"setTimeout(function(){}, 1500)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/card/balances?cardTokens={{humo_id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"card",
+										"balances"
+									],
+									"query": [
+										{
+											"key": "cardTokens",
+											"value": "{{humo_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "B2W Bonus -> Wallet",
+					"item": []
+				},
+				{
+					"name": "B2P Bonus -> Uzcard",
+					"item": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var auth_token = pm.environment.get(\"auth_token\")",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"DeviceID\",",
+							"    value: \"ffffffff-c95a-d390-ffff-ffffef05ac4a\"",
+							"})",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"AppVersion\",",
+							"    value: \"Android SDK:29(10),v.3.5.5.dbg.3643,samsung,SM-G960F\"",
+							"})",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"Authorization\",",
+							"    value: auth_token",
+							"})"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "Get Payment Methods",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response.json()",
+									"var wallet = resp.payload.wallet",
+									"pm.test(\"Cards quantity check\", function() {",
+									"        pm.expect(wallet.length).to.above(1)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}paymentMethods",
+							"host": [
+								"{{url}}paymentMethods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Humo Balance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response.json();",
+									"pm.test(\"Message check\", function() {",
+									"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+									"})",
+									"",
+									"var response = pm.response.json();",
+									"var iterator = response.payload.values();",
+									"",
+									"pm.test(\"Balance not null check\", function() {",
+									"    for (let elements of iterator) {",
+									"        pm.expect(elements.balance).not.eql(null)",
+									"    }",
+									"})",
+									"",
+									"pm.environment.set(\"Humo_balance\", resp.payload[0].balance)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/card/balances?cardTokens={{humo_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"card",
+								"balances"
+							],
+							"query": [
+								{
+									"key": "cardTokens",
+									"value": "{{humo_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment for Uzmobile",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function makeid(length) {",
+									"    var result           = '';",
+									"    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';",
+									"    var charactersLength = characters.length;",
+									"    for ( var i = 0; i < length; i++ ) {",
+									"        result += characters.charAt(Math.floor(Math.random() * charactersLength));",
+									"    }",
+									"    return result;",
+									"}",
+									"pm.environment.set(\"uuid\", makeid(40))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response.json()",
+									"",
+									"pm.test(\"Message Check\", function() {",
+									"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sourceAccount\": \"{{humo_id}}\",\n  \"sourceAccountType\": \"card\",\n  \"sourceAccountGate\": \"humouz\",\n  \"destAccount\": \"{{pay_number}}\",\n  \"destAccountType\": \"service\",\n  \"destAccountGate\": \"\",\n  \"orderId\": \"{{uuid}}\",\n  \"type\": \"payment\",\n  \"providerId\": 99899,\n  \"amount\": {{Transfer amount_1}},\n  \"currencyCode\": \"uzs\",\n  \"providerFields\": [\n    {\n      \"id\": \"clientid\",\n      \"val\": \"{{pay_number}}\"\n    }\n  ],\n  \"providerFuncPrefix\": \"\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}payment/pay",
+							"host": [
+								"{{url}}payment"
+							],
+							"path": [
+								"pay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Humo Balance Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response.json();",
+									"pm.test(\"Message check\", function() {",
+									"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+									"})",
+									"",
+									"var response = pm.response.json();",
+									"var iterator = response.payload.values();",
+									"",
+									"pm.test(\"Balance not null check\", function() {",
+									"    for (let elements of iterator) {",
+									"        pm.expect(elements.balance).not.eql(null)",
+									"    }",
+									"})",
+									"",
+									"function parse(str) {",
+									"  return Function(`'use strict'; return (${str})`)()",
+									"}",
+									"",
+									"var old_balance = pm.environment.get(\"Humo_balance\");",
+									"var new_balance = resp.payload[0].balance",
+									"var sum = pm.environment.get(\"Transfer amount_2\");",
+									"var commission = pm.environment.get(\"Transfer commission\")",
+									"",
+									"pm.test(\"Balance Changing Check\", function () {",
+									"    var counting = parse(old_balance - sum)",
+									"    let roundedNumber = Math.round(counting*100)/100",
+									"    pm.expect(new_balance).to.eql(roundedNumber.toString())",
+									"})",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(function(){}, 1500)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/card/balances?cardTokens={{humo_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"card",
+								"balances"
+							],
+							"query": [
+								{
+									"key": "cardTokens",
+									"value": "{{humo_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var auth_token = pm.environment.get(\"auth_token\")",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"DeviceID\",",
+							"    value: \"411319de3396d39bf28842483c91e7ae\"",
+							"})",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"AppVersion\",",
+							"    value: \"Android SDK:29(10),v.3.5.5.dbg.3643,samsung,SM-G960F\"",
+							"})",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"Authorization\",",
+							"    value: auth_token",
+							"})"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Cards Managment",
+			"item": [
+				{
+					"name": "Adding Bank Card",
+					"item": [
+						{
+							"name": "Bin Info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"var bin = pm.environment.get(\"card_bin\")",
+											"",
+											"pm.test(\"Bin Check\", function() {",
+											"    pm.expect(bin).to.include(resp.payload.bin)",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}card/binInfo/{{card_bin}}",
+									"host": [
+										"{{url}}card"
+									],
+									"path": [
+										"binInfo",
+										"{{card_bin}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Adding Bank Card",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardExpMonth\": \"{{card_exp_month}}\",\n  \"cardExpYear\": \"{{card_exp_year}}\",\n  \"cardNumber\": \"{{card_bin}}\",\n  \"cvv2\": \"\",\n  \"holderName\": \"visa\",\n  \"holderPhone\": \"{{holdersPhone}}\",\n  \"otp\": \"\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}card",
+									"host": [
+										"{{url}}card"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Cards Info Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var response = pm.response.json();",
+											"",
+											"var bin = pm.environment.get(\"card_bin\")",
+											"var iterator = response.payload.values();",
+											"var last_four = bin.substr(bin.length - 4);",
+											"",
+											"let responseArray = pm.response.json();",
+											"let filteredArray = responseArray.payload.filter(function(item) {",
+											"    return item.maskedNumber.substr(-4) == last_four;",
+											"});",
+											"",
+											"pm.test(\"Added Card check\", function() {",
+											"    pm.expect(filteredArray.length > 0)",
+											"})",
+											"",
+											"pm.environment.set(\"added_card_id\", filteredArray[0].id)",
+											"pm.environment.set(\"maskedNumber\", filteredArray[0].maskedNumber)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/cardsAndAccounts",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cardsAndAccounts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Deleting Bank Card",
+					"item": [
+						{
+							"name": "Get Card details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"pm.test(\"Message Check\", function() {",
+											"    pm.expect(resp.message).to.eql(\"Операция успешно выполнена\")",
+											"})",
+											"",
+											"pm.test(\"Payload not null check\", function() {",
+											"    pm.expect(resp.payload).not.eql(null)",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cardTokenId\": \"{{added_card_id}}\",\n    \"gate\": \"humouz\",\n    \"field\": \"exp\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}card/details",
+									"host": [
+										"{{url}}card"
+									],
+									"path": [
+										"details"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Card info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"var token = pm.environment.get(\"added_card_id\")",
+											"pm.test(\"Card Token Check\", function() {",
+											"    pm.expect(resp.payload.cardToken).to.eql(token)",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}card/{{added_card_id}}/balance",
+									"host": [
+										"{{url}}card"
+									],
+									"path": [
+										"{{added_card_id}}",
+										"balance"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Card Requisites",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json()",
+											"pm.test(\"Debit or not Check\", function() {",
+											"    pm.expect(resp.payload.card_type).to.eql(\"Debit\")",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cardTokenId\": \"{{added_card_id}}\",\n    \"gate\": \"humouz\",\n    \"field\": \"pan\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}card/requisites",
+									"host": [
+										"{{url}}card"
+									],
+									"path": [
+										"requisites"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deleting Bank Card",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}card/{{added_card_id}}",
+									"host": [
+										"{{url}}card"
+									],
+									"path": [
+										"{{added_card_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check Deleted Card",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var response = pm.response.json();",
+											"",
+											"var bin = pm.environment.get(\"card_bin\")",
+											"var iterator = response.payload.values();",
+											"var maskedNumber_1 = pm.environment.get(\"maskedNumber\")",
+											"",
+											"let responseArray = pm.response.json();",
+											"let filteredArray = responseArray.payload.filter(function(item) {",
+											"    return item.maskedNumber == maskedNumber_1;",
+											"});",
+											"pm.test(\"Added Card check\", function() {",
+											"    pm.expect(filteredArray.length > 0).to.be.false;",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"setTimeout(function(){}, 1500)",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/cardsAndAccounts",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cardsAndAccounts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var auth_token = pm.environment.get(\"auth_token\")",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"DeviceID\",",
+							"    value: \"411319de3396d39bf28842483c91e7ae\"",
+							"})",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"AppVersion\",",
+							"    value: \"Android SDK:29(10),v.3.5.5.dbg.3643,samsung,SM-G960F\"",
+							"})",
+							"",
+							"pm.request.headers.add({",
+							"    key: \"Authorization\",",
+							"    value: auth_token",
+							"})"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
+		}
+	]
+}
