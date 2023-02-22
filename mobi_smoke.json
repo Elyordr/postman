@@ -41,7 +41,7 @@
 						"header": [
 							{
 								"key": "DeviceID",
-								"value": "ffffffff-c95a-d390-ffff-ffffef05ac4a",
+								"value": "{{deviceID}}",
 								"type": "text"
 							},
 							{
@@ -65,11 +65,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}auth/in",
+							"raw": "{{url}}/auth/in",
 							"host": [
-								"{{url}}auth"
+								"{{url}}"
 							],
 							"path": [
+								"auth",
 								"in"
 							]
 						}
@@ -109,7 +110,7 @@
 						"header": [
 							{
 								"key": "DeviceId",
-								"value": "ffffffff-c95a-d390-ffff-ffffef05ac4a",
+								"value": "{{deviceID}}",
 								"type": "text"
 							},
 							{
@@ -133,11 +134,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}auth/in",
+							"raw": "{{url}}/auth/in",
 							"host": [
-								"{{url}}auth"
+								"{{url}}"
 							],
 							"path": [
+								"auth",
 								"in"
 							]
 						}
@@ -178,7 +180,7 @@
 						"header": [
 							{
 								"key": "DeviceId",
-								"value": "ffffffff-c95a-d390-ffff-ffffef05ac4a",
+								"value": "{{deviceID}}",
 								"type": "text"
 							},
 							{
@@ -202,11 +204,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}auth/signin",
+							"raw": "{{url}}/auth/signin",
 							"host": [
-								"{{url}}auth"
+								"{{url}}"
 							],
 							"path": [
+								"auth",
 								"signin"
 							]
 						}
@@ -903,9 +906,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}paymentMethods",
+									"raw": "{{url}}/paymentMethods",
 									"host": [
-										"{{url}}paymentMethods"
+										"{{url}}"
+									],
+									"path": [
+										"paymentMethods"
 									]
 								}
 							},
@@ -958,14 +964,7 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [
-									{
-										"key": "Request-Hash",
-										"value": "{{hash}}",
-										"type": "text",
-										"disabled": true
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"9860100124696483\",\n  \"destAccountGate\": \"humouz\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"SAIDMURODXONOV ELYORXON\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{humo_id}}\",\n  \"sourceAccountGate\": \"humouz\",\n  \"sourceAccountType\": \"card\",\n  \"accountFullName\": \"\",\n  \"otp\": \"\"\n}\n",
@@ -1026,14 +1025,7 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [
-									{
-										"key": "Request-Hash",
-										"value": "{{hash}}",
-										"type": "text",
-										"disabled": true
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n  \"amount\": {{Transfer amount_1}},\n  \"comment\": \"\",\n  \"commission\": 0,\n  \"currencyCode\": \"uzs\",\n  \"destAccount\": \"9860100124696483\",\n  \"destAccountGate\": \"humouz\",\n  \"destAccountType\": \"card\",\n  \"destAccountDisplayName\": \"SAIDMURODXONOV ELYORXON\",\n  \"destFullName\": \"\",\n  \"destAddressMethod\": \"pan\",\n  \"extraInfo\": \"test\",\n  \"orderId\": \"{{uuid}}\",\n  \"sourceAccount\": \"{{humo_id}}\",\n  \"sourceAccountGate\": \"humouz\",\n  \"sourceAccountType\": \"card\",\n  \"accountFullName\": \"\",\n  \"otp\": \"34815\"\n}\n",
@@ -2905,9 +2897,10 @@
 						"exec": [
 							"var auth_token = pm.environment.get(\"auth_token\")",
 							"",
+							"var DeviceID = pm.environment.get(\"deviceID\")",
 							"pm.request.headers.add({",
 							"    key: \"DeviceID\",",
-							"    value: \"ffffffff-c95a-d390-ffff-ffffef05ac4a\"",
+							"    value: DeviceID",
 							"})",
 							"",
 							"pm.request.headers.add({",
@@ -2966,9 +2959,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}paymentMethods",
+							"raw": "{{url}}/paymentMethods",
 							"host": [
-								"{{url}}paymentMethods"
+								"{{url}}"
+							],
+							"path": [
+								"paymentMethods"
 							]
 						}
 					},
@@ -3071,11 +3067,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}payment/pay",
+							"raw": "{{url}}/payment/pay",
 							"host": [
-								"{{url}}payment"
+								"{{url}}"
 							],
 							"path": [
+								"payment",
 								"pay"
 							]
 						}
@@ -3220,11 +3217,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}card/binInfo/{{card_bin}}",
+									"raw": "{{url}}/card/binInfo/{{card_bin}}",
 									"host": [
-										"{{url}}card"
+										"{{url}}"
 									],
 									"path": [
+										"card",
 										"binInfo",
 										"{{card_bin}}"
 									]
@@ -3247,9 +3245,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}card",
+									"raw": "{{url}}/card",
 									"host": [
-										"{{url}}card"
+										"{{url}}"
+									],
+									"path": [
+										"card"
 									]
 								}
 							},
@@ -3338,11 +3339,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}card/details",
+									"raw": "{{url}}/card/details",
 									"host": [
-										"{{url}}card"
+										"{{url}}"
 									],
 									"path": [
+										"card",
 										"details"
 									]
 								}
@@ -3370,11 +3372,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}card/{{added_card_id}}/balance",
+									"raw": "{{url}}/card/{{added_card_id}}/balance",
 									"host": [
-										"{{url}}card"
+										"{{url}}"
 									],
 									"path": [
+										"card",
 										"{{added_card_id}}",
 										"balance"
 									]
@@ -3412,11 +3415,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}card/requisites",
+									"raw": "{{url}}/card/requisites",
 									"host": [
-										"{{url}}card"
+										"{{url}}"
 									],
 									"path": [
+										"card",
 										"requisites"
 									]
 								}
@@ -3429,11 +3433,12 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{url}}card/{{added_card_id}}",
+									"raw": "{{url}}/card/{{added_card_id}}",
 									"host": [
-										"{{url}}card"
+										"{{url}}"
 									],
 									"path": [
+										"card",
 										"{{added_card_id}}"
 									]
 								}

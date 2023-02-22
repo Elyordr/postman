@@ -1,0 +1,177 @@
+{
+	"id": "f32094ba-9eed-4d8f-beca-993f49277205",
+	"name": "AlifMobi",
+	"values": [
+		{
+			"key": "Phone",
+			"value": "+998998801502",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "url",
+			"value": "https://api.mobi.alif.cloud/api/mobi/v1\n",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "hash",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "cards_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "humo_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "url2",
+			"value": "https://api.mobi.alif.cloud/api/mobi",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "uuid",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "uzcard_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "wallet_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "humo_num",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "uzcard_num",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "Humo_balance",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "Transfer amount_2",
+			"value": "1000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Transfer commission",
+			"value": "0.005",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Uzcard_balance",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "Transfer amount_1",
+			"value": "100000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "OTP requested?",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "wallet_balance",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "hash_1",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "pay_number",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "card_bin",
+			"value": "9860200101725881",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "card_exp_month",
+			"value": "01",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "card_exp_year",
+			"value": "28",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "holdersPhone",
+			"value": "+998998801502",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "added_card_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "maskedNumber",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "deviceID",
+			"value": "7bb0e1d79aa3d7b59b099714b8db9d3e",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-02-22T05:49:40.580Z",
+	"_postman_exported_using": "Postman/10.9.4"
+}
