@@ -17,9 +17,9 @@ jobs:
         
     - name: Run Docker image
       run: |
-        docker run -v $(pwd):/etc/newman postman:v1 run mobi_smoke.json -e mobi_env.json -r htmlextra --reporter-htmlextra-export test_results/report.html
         ls
         pwd
+        docker run -v $(pwd):/etc/newman postman:v1 run mobi_smoke.json -e mobi_env.json -r htmlextra --reporter-htmlextra-export test_results/report.html
     - name: Send Telegram message
       uses: appleboy/telegram-action@master
       with:
