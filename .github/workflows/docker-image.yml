@@ -13,4 +13,17 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image with Postman
       run: |
-        ls
+        docker build postman:v1 .
+        
+    - name: Run Docker image
+      run: |
+        docker run -t -v $(pwd):/etc/newman postman:v1 run mobi_smoke.json -e mobi_env.json -r htmlextra --reporter-htmlextra-export test_results/report.html        
+    - name: Send Telegram message
+      uses: appleboy/telegram-action@master
+      with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          document: /home/runner/work/todoapp/todoapp/postman/test_results/report.html
+          message: |
+            Произошел деплой на продакшн сервер, ловите результаты:
+      if: always()
