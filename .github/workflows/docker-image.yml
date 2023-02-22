@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image with Postman
       run: |
-        docker build postman:v1 .
+        docker build -t postman:v1 .
         
     - name: Run Docker image
       run: |
