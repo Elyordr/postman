@@ -57,7 +57,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"action\": \"auth\",\n  \"phone\": \"+998888001502\",\n  \"osPlatform\": 0,\n  \"deviceId\": \"ffffffff-c95a-d390-ffff-ffffef05ac4a\"\n}\n",
+							"raw": "{\n  \"action\": \"auth\",\n  \"phone\": \"+998888001502\",\n  \"osPlatform\": 0,\n  \"deviceId\": \"411319de3396d39bf28842483c91e7ae\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -126,7 +126,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"action\": \"auth\",\n  \"deviceId\": \"ffffffff-c95a-d390-ffff-ffffef05ac4a\",\n  \"phone\": \"+998888001502\",\n  \"otp\": \"43599\"\n}",
+							"raw": "{\n  \"action\": \"auth\",\n  \"deviceId\": \"411319de3396d39bf28842483c91e7ae\",\n  \"phone\": \"+998888001502\",\n  \"otp\": \"43599\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -196,7 +196,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"action\": \"auth\",\n  \"phone\": \"+998888001502\",\n  \"otp\": \"43599\",\n  \"pin\": \"0880\",\n  \"deviceId\": \"ffffffff-c95a-d390-ffff-ffffef05ac4a\"\n}",
+							"raw": "{\n  \"action\": \"auth\",\n  \"phone\": \"+998888001502\",\n  \"otp\": \"43599\",\n  \"pin\": \"0880\",\n  \"deviceId\": \"411319de3396d39bf28842483c91e7ae\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
